@@ -83,6 +83,7 @@ class ExpenseList extends StatelessWidget {
                       ],
                     ),
                     onTap: () {
+                      print(item.latitude);
                       if (item.latitude != null && item.longitude != null) {
                         _showLocationDialog(
                           context,

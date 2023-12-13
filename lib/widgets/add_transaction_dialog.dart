@@ -1,4 +1,3 @@
-import 'package:expense_manager/main.dart';
 import 'package:expense_manager/models/earning.dart';
 import 'package:expense_manager/models/expense.dart';
 import 'package:expense_manager/services/expense_service.dart';
@@ -37,23 +36,6 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
               controller: _amountController,
               decoration: const InputDecoration(labelText: 'Amount'),
               keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 16.0),
-            TextField(
-              controller: _dueDateController,
-              decoration: const InputDecoration(labelText: 'Due Date'),
-              onTap: () async {
-                DateTime? pickedDate = await showDatePicker(
-                  context: context,
-                  initialDate: DateTime.now(),
-                  firstDate: DateTime.now(),
-                  lastDate: DateTime(2101),
-                );
-                if (pickedDate != null) {
-                  _dueDateController.text =
-                      DateFormat('yyyy-MM-dd').format(pickedDate);
-                }
-              },
             ),
             const SizedBox(height: 16.0),
             DropdownButtonFormField<String>(
@@ -112,15 +94,6 @@ class _AddTransactionDialogState extends State<AddTransactionDialog> {
             category: 'Expense',
           ),
         );
-
-        // Schedule notification if due date is provided
-        if (dueDate != null) {
-          scheduleNotification(
-            'Expense Due',
-            '$title is due on ${DateFormat('yyyy-MM-dd').format(dueDate)}',
-            dueDate,
-          );
-        }
       } else if (_category == 'Earning') {
         expenseService.addEarning(
           Earning(

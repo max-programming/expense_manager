@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'firebase_options.dart';
 import 'pages/home.dart';
-import 'package:timezone/timezone.dart' as tz;
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
     FlutterLocalNotificationsPlugin();
@@ -18,10 +17,6 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  const InitializationSettings initializationSettings = InitializationSettings(
-    android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-  );
-  await flutterLocalNotificationsPlugin.initialize(initializationSettings);
 
   runApp(const MyApp());
 }
@@ -47,31 +42,4 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
-}
-
-// Function to schedule a notification
-Future<void> scheduleNotification(
-  String title,
-  String body,
-  DateTime scheduledDate,
-) async {
-  const androidPlatformChannelSpecifics = AndroidNotificationDetails(
-    'abcd',
-    'Channel 1',
-    importance: Importance.max,
-    priority: Priority.high,
-  );
-  const platformChannelSpecifics = NotificationDetails(
-    android: androidPlatformChannelSpecifics,
-  );
-
-  await flutterLocalNotificationsPlugin.zonedSchedule(
-    0,
-    title,
-    body,
-    tz.TZDateTime.from(scheduledDate, tz.local),
-    platformChannelSpecifics,
-    uiLocalNotificationDateInterpretation:
-        UILocalNotificationDateInterpretation.absoluteTime,
-  );
 }
